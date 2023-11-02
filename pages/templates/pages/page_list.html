@@ -2,26 +2,50 @@
 {% load static %}
 {% block title %}Páginas{% endblock %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'pages/css/styles.css' %}">
 <main role="main">
   <div class="container mb-4">
     {% for page in page_list %}
-      <div class="row mt-3">
-        <div class="col-md-9 mx-auto">
-          <h2 class="mb-4">{{page.title}}</h2>
-          <div>
-            <p>{{page.content|striptags|safe|truncatechars:"200"}}</p>
-            <p><a href="{% url 'page' page.id page.title|slugify %}">Leer más</a>
-              <!--
+    <div class="row mt-3">
+      <div class="col-md-9 mx-auto">
+        <h2 class="mb-4">{{page.title}}</h2>
+        <div>
+          <p>{{page.content|striptags|safe|truncatechars:"200"}}</p>
+          <p><a href="{% url 'page' page.id page.title|slugify %}">Leer más</a>
+            <!--
               {% if request.user.is_staff %}
                 | <a href="#">Editar</a>
                 | <a href="#">Borrar</a>
               {% endif %}
               -->
-            </p>
-          </div>
+          </p>
         </div>
       </div>
+    </div>
     {% endfor %}
+    <div class="pagination">
+      <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page=1" class="active">&laquo;</a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="active">Previous</a>
+        {% else %}
+        <a href="#" class="disabled">&laquo;</a>
+        <a href="#" class="disabled">Previous</a>
+        {% endif %}
+
+        <span class="current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="active">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="active">&raquo;</a>
+        {% else  %}
+        <a href="#" class="disabled">Next</a>
+        <a href="#" class="disabled">&raquo;</a>
+        {% endif %}
+      </span>
+    </div>
   </div>
 </main>
 {% endblock %}

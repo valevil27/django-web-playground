@@ -1,0 +1,17 @@
+div.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & a.disabled {
+        cursor: default;
+        color: rgb(0 0 0 / .4);
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+    & a:hover{
+        text-decoration: none;
+    }
+}
