@@ -3,6 +3,7 @@
 {% block title %}{{page.title}}{% endblock %}
 {% block content %}
 {% include 'pages/includes/pages_menu.html' %}
+<link rel="stylesheet" href="{% static 'pages/css/styles.css' %}">
 <main role="main">
   <div class="container">
     <div class="row mt-3">
@@ -11,7 +12,11 @@
         <div>
           {{page.content|safe}}
           {% if request.user.is_staff %}
-            <p><a href="#">Editar</a></p>
+          <div class="buttoner">
+
+            <a href="{% url 'pages:update' page.id %}" class="link-button page-button primary-button">Editar</a>
+            <a href="{% url 'pages:delete' page.id %}" class="link-button page-button delete-button">Borrar</a>
+          </div>
           {% endif %}
         </div>
       </div>

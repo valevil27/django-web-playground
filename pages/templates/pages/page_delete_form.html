@@ -10,14 +10,12 @@
       <div class="col-md-9 mx-auto">
         <div>
           <form action="" method="post">{% csrf_token %}
-              {{ form.as_p }}
-            <input type="submit" class="page-button success-button" value="Crear página" />
+            <p>¿Estás seguro de borrar {{ page.title|slugify }}?</p>
+            <input type="submit" class="page-button delete-button" value="Borrar Página" />
           </form>
         </div>
       </div>
     </div>
   </div>
 </main>
-<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
-<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 {% endblock %}

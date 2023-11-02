@@ -12,14 +12,14 @@
         <h2 class="mb-4">{{page.title}}</h2>
         <div>
           <p>{{page.content|striptags|safe|truncatechars:"200"}}</p>
-          <p><a href="{% url 'pages:page' page.id page.title|slugify %}">Leer más</a>
-            <!--
+          <div class="buttoner">
+            <a href="{% url 'pages:page' page.id page.title|slugify %}" class="link-button page-button primary-button">Leer más</a>
               {% if request.user.is_staff %}
-                | <a href="#">Editar</a>
-                | <a href="#">Borrar</a>
+                <a href="{% url 'pages:update' page.id %}" class="link-button page-button primary-button">Editar</a>
+                <a href="{% url 'pages:delete' page.id %}" class="link-button page-button delete-button">Borrar</a>
               {% endif %}
-              -->
-          </p>
+          </div>
+          
         </div>
       </div>
     </div>
