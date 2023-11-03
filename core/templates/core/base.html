@@ -34,11 +34,24 @@
           </li>
         </ul>
         <ul class="navbar-nav">
+          {% if request.user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="/admin/">
-              {% if request.user.is_staff %}Admin{% else %}Acceder{% endif %}
+            <a class="nav-link" href="{% url 'logout' %}">
+              Salir
             </a>
           </li>
+            {% else  %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">
+                Acceder
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'registration:signup' %}">
+                Registrarse
+              </a>
+            </li>
+            {% endif %}
         </ul>
       </div>
     </div>
