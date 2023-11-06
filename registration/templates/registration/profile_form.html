@@ -17,6 +17,8 @@
               {% if object.avatar %}
               <img src="{{ request.user.profile.avatar.url }}" alt="Imagen de avatar del Usuario">
               <p><span class="label">¿Eliminar imagen de perfil?</span> <input type="checkbox" name="avatar-clear"></p>
+              {% else %}
+              <img src="{% static 'registration/img/no-avatar.jpg' %}" alt="Imagen de avatar del Usuario">
               {% endif %}
             </div>
             <div class="profile-text">
