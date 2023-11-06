@@ -33,6 +33,12 @@
               <span class="label">{{form.link.label}}:</span>
               <input type="url" name="link" class="form-control mt-1 mb-2" placeholder="Link" maxlength="254"
                 id="id_link" value="{% if object.link %}{{object.link}}{% endif %}">
+              <span class="label">Email:</span>
+              <input type="email" name="email" class="form-control mt-1 mb-2" value="{{ object.user.email }}" readonly>
+              {% if 'email' in request.GET %}
+              <p class="success-info-text"><small>Su email ha cambiado con exito.</small></p>
+              {% endif %}
+              <p><small>¿Desea cambiar su email? Haga click <a href="{% url 'registration:email' %}">aquí</a>.</small></p>
               <input type="submit" class="page-button success-button" value="Actualizar" />
             </div>
           </div>

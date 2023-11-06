@@ -22,6 +22,11 @@ div.pagination {
     gap: 10px;
 }
 
+.success-info-text {
+    color: #00ba57;
+    margin: 0;
+}
+
 .page-button {
     color: white;
     border: none;

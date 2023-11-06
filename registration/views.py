@@ -1,13 +1,11 @@
-from typing import Any
-from urllib import request
 from django import forms
-from django.db import models
+from django.contrib.auth.models import User
 from django.forms.models import BaseModelForm
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, TemplateView, UpdateView
-from .forms import ProfileForm, UserWithMailCreationForm
+from .forms import ProfileForm, UserWithMailCreationForm, EmailForm
 from .models import Profile
 
 
@@ -49,3 +47,21 @@ class ProfileView(UpdateView):
     def get_object(self, queryset= None) -> Profile:
         profile, created = Profile.objects.get_or_create(user = self.request.user)
         return profile
+    
+class EmailUpdateView(UpdateView):
+    model = User
+    template_name = "registration/profile_email_form.html"
+    
+    def get_success_url(self) -> str:
+        return reverse_lazy("registration:profile") + "?email"
+
+    def get_object(self, queryset= None) -> User:
+        user = self.request.user
+        return user # type: ignore
+    # Now we overwrite the form widget in execution time
+    def get_form(self, form_class = EmailForm):
+        form = super().get_form(form_class)
+        form.fields['email'].widget = forms.EmailInput(
+            attrs={'class':'form-control','placeholder':"Email"}
+        )
+        return form

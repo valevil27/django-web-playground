@@ -46,6 +46,7 @@ label {
         width: inherit;
 
         & .file-input {
+            width: inherit;
             overflow: visible !important;
         }
 
