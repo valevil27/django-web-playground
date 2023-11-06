@@ -1,10 +1,14 @@
+from typing import Any
+from urllib import request
 from django import forms
+from django.db import models
 from django.forms.models import BaseModelForm
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, UpdateView
 from .forms import UserWithMailCreationForm
+from .models import Profile
 
 
 # Create your views here.
@@ -35,5 +39,13 @@ class SignUpView(CreateView):
         return form
 
 @method_decorator(login_required, name="dispatch")
-class ProfileView(TemplateView):
+class ProfileView(UpdateView):
+    model = Profile
+    fields = ('avatar','bio','link')
+    success_url = reverse_lazy("registration:profile")
     template_name = "registration/profile_form.html"
+    
+    #? How to get the object that we want to update
+    def get_object(self, queryset= None) -> Profile:
+        profile, created = Profile.objects.get_or_create(user = self.request.user)
+        return profile
