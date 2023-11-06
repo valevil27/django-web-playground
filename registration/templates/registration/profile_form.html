@@ -2,88 +2,39 @@
 {% load static %}
 {% block title %}Crear página{% endblock %}
 {% block content %}
-<style>
-  label {
-    display: none;
-  }
-
-  .custom-form {
-    & h3 {
-      font-weight: bold;
-    }
-
-    & span.label {
-      font-weight: bold;
-    }
-
-    & .profile-avatar {
-      display: flex;
-      flex-direction: column;
-
-      & img {
-        width: 200px;
-        height: auto;
-        margin-bottom: 0.7rem;
-        border-radius: 20px;
-        transition: 0.2s ease-in-out;
-
-        &:hover {
-          scale: 1.15
-        }
-      }
-
-      & .file-input {
-        overflow: visible !important;
-      }
-
-      & .file-input::-webkit-file-upload-button {
-        border-radius: 7px;
-        border: 0;
-        background-color: rgb(0, 145, 255, 0.85);
-        transition: 0.2s ease-in;
-        color: white;
-        font-weight: bold;
-      }
-
-      & .file-input::-webkit-file-upload-button:hover {
-        background-color: rgb(0, 145, 255);
-      }
-
-    }
-  }
-</style>
 <link rel="stylesheet" href="{% static 'pages/css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'registration/css/styles.css' %}">
 <main role="main">
   <div class="container">
     <div class="row mt-3">
-      <div class="col-md-9 mx-auto">
-        <div class="custom-form">
-          <h3>Perfil</h3>
-          <hr>
-          <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+      <div class="col-md-10 mx-auto">
+        <h3 class="profile-title">Perfil</h3>
+        <hr>
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+          <div class="custom-form">
             <div class="profile-avatar">
+              <h4 class="profile-title">@{{ object.user.username }}</h4>
               {% if object.avatar %}
               <img src="{{ request.user.profile.avatar.url }}" alt="Imagen de avatar del Usuario">
               <p><span class="label">¿Eliminar imagen de perfil?</span> <input type="checkbox" name="avatar-clear"></p>
-              <p><span class="label">Cambiar imagen de perfil:</span> <input type="file" class="file-input"
-                  name="avatar"></p>
-              {% else %}
-              <p><span class="label">Seleccionar imagen de perfil:</span> <input type="file" class="file-input"
-                  name="avatar"></p>
               {% endif %}
             </div>
             <div class="profile-text">
+              {% if object.avatar %}
+              <p><span class="label">Cambiar avatar:</span> <input type="file" class="file-input" name="avatar"></p>
+              {% else %}
+              <p><span class="label">Seleccionar avatar:</span> <input type="file" class="file-input" name="avatar"></p>
+              {% endif %}
               <span class="label">{{form.bio.label}}:</span>
               <textarea name="bio" cols="40" rows="3" class="form-control mt-1 mb-2" placeholder="Biografía"
                 id="id_bio">{{object.bio}}</textarea>
               <span class="label">{{form.link.label}}:</span>
               <input type="url" name="link" class="form-control mt-1 mb-2" placeholder="Link" maxlength="254"
                 id="id_link" value="{% if object.link %}{{object.link}}{% endif %}">
+              <input type="submit" class="page-button success-button" value="Actualizar" />
             </div>
-
-            <input type="submit" class="page-button success-button" value="Actualizar" />
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
