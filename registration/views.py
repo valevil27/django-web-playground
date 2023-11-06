@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, TemplateView, UpdateView
-from .forms import UserWithMailCreationForm
+from .forms import ProfileForm, UserWithMailCreationForm
 from .models import Profile
 
 
@@ -41,7 +41,7 @@ class SignUpView(CreateView):
 @method_decorator(login_required, name="dispatch")
 class ProfileView(UpdateView):
     model = Profile
-    fields = ('avatar','bio','link')
+    form_class = ProfileForm
     success_url = reverse_lazy("registration:profile")
     template_name = "registration/profile_form.html"
     
