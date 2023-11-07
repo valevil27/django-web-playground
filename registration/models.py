@@ -14,6 +14,9 @@ class Profile(models.Model):
     avatar = models.ImageField("Avatar", upload_to=avatar_upload_to, null=True, blank=True)
     bio = models.TextField("Biografía", null=True,blank=True)
     link = models.URLField("Portfolio", max_length=254, null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.user.username + "_profile" 
     
 @receiver(post_save, sender=User)
 def profile_on_user_creation(sender, instance, **kwargs):

@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Lista de Perfiles{% endblock title %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'profiles/css/styles.css' %}">
+<main>
+  <section class="profile-list">
+    <h2>Hello!</h2>
+    {% for profile in profile_list %}
+    <article>
+      <aside>
+        {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="{{ profile.user.username }} avatar image." >
+        {% else  %}
+        <img src="{% static 'registration/img/no-avatar.jpg' %}" alt="The user has no avatar.">
+        {% endif %}
+      </aside>
+      <div class="user-info">
+        <a href="{% url 'profiles:detail' username=profile.user.username|slugify %}">
+          <h4 class="profile-username">{{ profile.user.username }}</h4>
+        </a>
+        <p class="profile-bio">{{ profile.bio|truncatewords:20 }}</p>
+        <p class="profile-link"><small>{{ profile.link }}</small></p>
+      </div>
+    </article>
+    {% endfor %}
+  </section>
+</main>
+{% endblock content %}

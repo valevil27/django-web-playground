@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}{{ profile.user.username }}{% endblock title %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'profiles/css/styles.css' %}">
+<main>
+  <section class="profile">
+    <aside>
+      {% if profile.avatar %}
+      <img src="{{ profile.avatar.url }}" alt="{{ profile.user.username }} avatar image.">
+      {% else  %}
+      <img src="{% static 'registration/img/no-avatar.jpg' %}" alt="The user has no avatar.">
+      {% endif %}
+      <h3 class="profile-username">@{{ profile.user.username }}</h3>
+    </aside>
+    <div class="separator"></div>
+    <article class="user-info">
+      <h4>Biografía:</h4>
+      <p class="bio">{{ profile.bio|linebreaksbr }}</p>
+      <h4>Link:</h4>
+      <a href="">
+        <p class="bio">{{ profile.link }}</p>
+      </a>
+    </article>
+  </section>
+</main>
+{% endblock content %}
