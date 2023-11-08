@@ -15,6 +15,8 @@ class Profile(models.Model):
     bio = models.TextField("Biografía", null=True,blank=True)
     link = models.URLField("Portfolio", max_length=254, null=True, blank=True)
 
+    class Meta:
+        ordering = ("user__username",)
     def __str__(self) -> str:
         return self.user.username + "_profile" 
     
