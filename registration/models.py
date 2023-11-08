@@ -24,5 +24,4 @@ class Profile(models.Model):
 def profile_on_user_creation(sender, instance, **kwargs):
     if kwargs.get("created", False):
         Profile.objects.get_or_create(user=instance)
-        print("Se ha creado un usuario y un perfil enlazado.")
     
