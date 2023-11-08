@@ -5,25 +5,48 @@
 <link rel="stylesheet" href="{% static 'profiles/css/styles.css' %}">
 <main>
   <section class="profile-list">
-    <h2>Hello!</h2>
     {% for profile in profile_list %}
     <article>
       <aside>
         {% if profile.avatar %}
-        <img src="{{ profile.avatar.url }}" alt="{{ profile.user.username }} avatar image." >
+        <img src="{{ profile.avatar.url }}" alt="{{ profile.user.username }} avatar image.">
         {% else  %}
         <img src="{% static 'registration/img/no-avatar.jpg' %}" alt="The user has no avatar.">
         {% endif %}
       </aside>
-      <div class="user-info">
-        <a href="{% url 'profiles:detail' username=profile.user.username|slugify %}">
-          <h4 class="profile-username">{{ profile.user.username }}</h4>
-        </a>
-        <p class="profile-bio">{{ profile.bio|truncatewords:20 }}</p>
-        <p class="profile-link"><small>{{ profile.link }}</small></p>
+      <div class="profile-text">
+        <h4 class="profile-username">{{ profile.user.username }}</h4>
+        <p>
+          <a href="{% url 'profiles:detail' username=profile.user.username %}">
+            Ver perfil
+          </a>
+        </p>
       </div>
     </article>
     {% endfor %}
   </section>
 </main>
+
+<nav class="nav-paginate" aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+      <a class="page-link" href="?page=1" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% if page_obj.has_previous %}
+    <li class="page-item"><a class="page-link"
+        href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+    {% endif %}
+    <li class="page-item active"><span class="page-link" >{{ page_obj.number }}</span></li>
+    {% if page_obj.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+    {% endif %}
+    <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+      <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 {% endblock content %}

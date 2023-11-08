@@ -40,31 +40,25 @@ section.profile .separator {
   opacity: 0.3;
 }
 section.profile-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
 }
 section.profile-list article {
   display: flex;
+  gap: 1rem;
   align-items: center;
+  border: 1px rgba(0, 0, 0, 0.2) solid;
+  border-radius: 10px;
+  padding: 1rem;
+  transition: 0.2s ease-in-out;
+}
+section.profile-list article:hover {
+  background-color: rgba(0, 0, 0, 0.0666666667);
 }
 @media screen and (max-width: 800px) {
   section.profile-list article {
     flex-direction: column;
-  }
-}
-section.profile-list article aside {
-  display: flex;
-  align-items: center;
-  min-height: 150px;
-  min-width: 200px;
-}
-@media screen and (max-width: 800px) {
-  section.profile-list article aside {
-    width: 80%;
-    max-width: 200px;
-    min-width: 50px;
-    min-height: 50px;
   }
 }
 section.profile-list article img {
@@ -72,28 +66,31 @@ section.profile-list article img {
      object-fit: cover;
   -o-object-position: center;
      object-position: center;
-  height: 150px;
+  height: 100px;
   aspect-ratio: 1;
-  transition: 0.2s ease;
-}
-@media screen and (max-width: 800px) {
-  section.profile-list article img {
-    width: 100%;
-    max-width: 150px;
-  }
+  transition: 0.3s ease-in-out;
 }
 section.profile-list article img:hover {
+  scale: 1.2;
   -o-object-fit: contain;
      object-fit: contain;
 }
-section.profile-list article .user-info {
+section.profile-list article .profile-text {
   display: flex;
   flex-direction: column;
-  align-content: center;
+  justify-content: space-around;
 }
-@media screen and (max-width: 800px) {
-  section.profile-list article .user-info {
-    max-width: 70vw;
-    overflow: hidden;
-  }
+section.profile-list article .profile-text h4 {
+  margin: 0;
+}
+section.profile-list article .profile-text p {
+  margin: 0;
+}
+
+nav.nav-paginate {
+  display: flex !important;
+  justify-content: center;
+}
+nav.nav-paginate li.active span.page-link {
+  cursor: default;
 }/*# sourceMappingURL=styles.css.map */
