@@ -45,11 +45,13 @@ section.profile aside img:hover {
 section.profile aside h3 {
   font-weight: bold;
 }
-section.profile .separator {
+
+.separator {
   background-color: rgb(0, 0, 0);
   height: 100%;
   opacity: 0.3;
 }
+
 section.profile-list {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -99,10 +101,10 @@ section.profile-list article .profile-text {
   flex-direction: column;
   justify-content: space-around;
 }
-section.profile-list article .profile-text h4 {
+section.profile-list article h4 {
   margin: 0;
 }
-section.profile-list article .profile-text p {
+section.profile-list article h4 p {
   margin: 0;
 }
 
@@ -110,7 +112,8 @@ nav.nav-paginate {
   display: flex !important;
   justify-content: center;
 }
-nav.nav-paginate li.active span.page-link {
+
+li.active span.page-link {
   cursor: default;
 }
 
@@ -131,14 +134,15 @@ section.thread-list {
   align-items: center;
   gap: 2rem;
 }
-section.thread-list .thread {
+
+.thread {
   width: 500px;
 }
-section.thread-list aside {
+.thread aside {
   height: 100px;
   width: 100px;
 }
-section.thread-list aside img {
+.thread img {
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
@@ -148,19 +152,19 @@ section.thread-list aside img {
   border-radius: 10%;
   height: 100px;
 }
-section.thread-list aside img:hover {
+.thread img:hover {
   scale: 1.2;
   -o-object-fit: contain;
      object-fit: contain;
   border-radius: 0;
 }
-section.thread-list aside .thread-user {
+.thread img .thread-user {
   color: rgb(97, 0, 162);
 }
-section.thread-list aside .thread-user a {
+.thread img a {
   color: currentColor;
 }
-section.thread-list aside p {
+.thread img p {
   opacity: 0.7;
 }
 
@@ -180,16 +184,17 @@ section.thread-detail {
     flex-direction: column;
   }
 }
+
 @media screen and (max-width: 800px) {
-  section.thread-detail .thread {
+  .thread {
     max-width: 100%;
     overflow: hidden;
   }
 }
-section.thread-detail .thread p {
+.thread p {
   font-size: 1rem;
 }
-section.thread-detail .thread img {
+.thread img {
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
@@ -200,20 +205,21 @@ section.thread-detail .thread img {
   height: 100px;
   min-width: 100px;
 }
-section.thread-detail .thread img:hover {
+.thread img:hover {
   scale: 1.2;
   -o-object-fit: contain;
      object-fit: contain;
   border-radius: 0;
 }
-section.thread-detail .thread-messages {
+
+.thread-messages {
   display: flex;
   flex-direction: column;
   justify-content: start;
   gap: 0.75rem;
   min-width: 50%;
 }
-section.thread-detail .thread-messages .message-content {
+.thread-messages .message-content {
   display: flex;
   flex-direction: column;
   width: 90%;
@@ -221,19 +227,23 @@ section.thread-detail .thread-messages .message-content {
   border-radius: 10px;
   font-size: 1rem;
 }
-section.thread-detail .thread-messages .message-content p {
+.thread-messages .message-content p {
   margin: 0;
+  font-size: 0.9rem;
 }
-section.thread-detail .thread-messages .message-content.mine {
+.thread-messages .message-content.mine {
   align-self: flex-end;
   align-items: flex-end;
-  background-color: rgba(0, 255, 123, 0.15);
+  background-color: hsla(150, 60%, 80%, 0.5);
+  border-top-right-radius: 0;
 }
-section.thread-detail .thread-messages .message-content.other {
+.thread-messages .message-content.other {
   align-self: flex-start;
-  background-color: rgba(0, 170, 255, 0.15);
+  background-color: hsla(200, 60%, 80%, 0.5);
+  border-top-left-radius: 0;
 }
-section.thread-detail .thread-messages .message-content .message-date {
-  font-size: 0.8rem;
-  opacity: 0.7;
+.thread-messages .message-content .message-date {
+  font-style: italic;
+  font-size: 0.7rem;
+  opacity: 0.6;
 }/*# sourceMappingURL=styles.css.map */
