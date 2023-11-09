@@ -1,3 +1,4 @@
+from __future__ import annotations
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
@@ -14,11 +15,30 @@ class Message(models.Model):
         ordering = ("sended",)
 
 
+class ThreadManager(models.Manager):
+    # Inside the class, self = Thread.objects
+    def find_by_users(self, *users: User) -> (Thread | None): 
+        query = self.all()
+        for user in users:
+            query = query.filter(users=user)
+            if len(query) == 0:
+                return None
+        return query.first()
+
+    def find_or_create_by_users(self, *users: User):
+        thread = self.find_by_users(*users)
+        if thread: return thread
+        new_thread: Thread = self.create()
+        new_thread.users.add(*users)
+        return new_thread
+            
+
 class Thread(models.Model):
     users = models.ManyToManyField(
         User, verbose_name=_("Users"), related_name="threads"
     )
     messages = models.ManyToManyField(Message, verbose_name=_("Messages"))
+    objects = ThreadManager()
 
 
 def messages_changed(sender, **kwargs):
@@ -31,7 +51,7 @@ def messages_changed(sender, **kwargs):
             message = Message.objects.get(pk=pk)
             if message.user not in instance.users.all():
                 print(f"Ups, user {message.user} is not in the thread!")
-                unallowed_pk.add(pk) #? We cant edit a set while iterating it
+                unallowed_pk.add(pk)  # ? We cant edit a set while iterating it
     pk_set.difference_update(unallowed_pk)
 
 
