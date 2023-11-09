@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}{{request.user.username}} messages{% endblock title %}
+{% block content %}
+{% load templates %}
+<link rel="stylesheet" href="{% static 'profiles/css/styles.css' %}">
+<main>
+  <section class="thread-list">
+    {% for thread in request.user.threads.ordered_threads %}
+    {% if thread.messages.all|length > 0 %}
+      <article class="thread">
+        {% with other=thread.users.all|exclude:request.user %}
+        
+        <aside>
+          {% if other.profile.avatar %}
+          <img src="{{ other.profile.avatar.url }}" alt="{{other.username}} avatar image.">
+          {% else  %}
+          <img src="{% static 'registration/img/no-avatar.jpg' %}" alt="{{other.username}} avatar image.">
+          {% endif %}
+        </aside>
+        <div class="thread-info">
+          <h4 class="thread-user"><a href="{% url 'messenger:detail' pk=thread.pk %}">{{ other.username }}</a></h4>
+          {% with lastmessage=thread.messages.last %}
+          <p>Hace {{ lastmessage.sended|timesince }}</p>
+          {% endwith %}
+        </div>
+        {% endwith %}
+      </article>
+      {% endif %}
+    {% empty %}
+      <h2>No tienes chats activos.</h2> 
+    {% endfor %}
+  </section>
+</main>
+{% endblock %}

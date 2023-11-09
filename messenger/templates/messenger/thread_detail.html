@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Messenger{% endblock title %}
+{% block content %}
+{% load templates %}
+<link rel="stylesheet" href="{% static 'profiles/css/styles.css' %}">
+<main>
+  <section class="thread-detail">
+    <aside class="thread">
+      {% with other=thread.users.all|exclude:request.user %}
+      <aside>
+        {% if other.profile.avatar %}
+        <img src="{{ other.profile.avatar.url }}" alt="{{other.username}} avatar image.">
+        {% else  %}
+        <img src="{% static 'registration/img/no-avatar.jpg' %}" alt="{{other.username}} avatar image.">
+        {% endif %}
+      </aside>
+      <div class="thread-info">
+        <h4 class="thread-user">{{ other.username }}</h4>
+        {% with lastmessage=thread.messages.last %}
+        <p>Hace {{ lastmessage.sended|timesince }}</p>
+        {% endwith %}
+      </div>
+      {% endwith %}
+    </aside>
+    <article class="thread-messages">
+      <h4>Chat</h4>
+      {% for message in thread.messages.all %}
+      {% if message.user == request.user %}
+      <div class="message-content mine">
+        <header class="message-date">Hace {{ message.sended|timesince }}</header>
+        <p>{{ message.content }}</p>
+      </div>
+      {% else  %}
+      <div class="message-content other">
+        <header class="message-date">Hace {{ message.sended|timesince }}</header>
+        <p>{{ message.content }}</p>
+      </div>
+      {% endif %}
+      {% endfor %}
+
+    </article>
+  </section>
+</main>
+{% endblock %}

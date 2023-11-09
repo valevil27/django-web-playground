@@ -16,6 +16,8 @@ main {
 
 section {
   max-width: 1200px;
+  width: 80vw;
+  padding: 2rem;
 }
 
 section.profile {
@@ -25,11 +27,20 @@ section.profile {
        column-gap: 1rem;
 }
 section.profile aside img {
-  border-radius: 10px;
-  transition: 0.2s ease-in-out;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  transition: scale 0.3s ease-in-out, border-radius 0.3s ease;
+  scale: 1;
+  border-radius: 10%;
+  border-radius: 10%;
 }
 section.profile aside img:hover {
-  scale: 1.1;
+  scale: 1.2;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 0;
 }
 section.profile aside h3 {
   font-weight: bold;
@@ -61,19 +72,27 @@ section.profile-list article:hover {
     flex-direction: column;
   }
 }
+section.profile-list article aside {
+  width: 100px;
+  height: 100px;
+}
 section.profile-list article img {
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
      object-position: center;
+  transition: scale 0.3s ease-in-out, border-radius 0.3s ease;
+  scale: 1;
+  border-radius: 10%;
+  border-radius: 10px;
   height: 100px;
-  aspect-ratio: 1;
-  transition: 0.3s ease-in-out;
+  max-height: 100px;
 }
 section.profile-list article img:hover {
   scale: 1.2;
   -o-object-fit: contain;
      object-fit: contain;
+  border-radius: 0;
 }
 section.profile-list article .profile-text {
   display: flex;
@@ -93,4 +112,128 @@ nav.nav-paginate {
 }
 nav.nav-paginate li.active span.page-link {
   cursor: default;
+}
+
+.thread {
+  display: flex;
+  max-width: 70%;
+  height: -moz-fit-content;
+  height: fit-content;
+  gap: 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+section.thread-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+section.thread-list .thread {
+  width: 500px;
+}
+section.thread-list aside {
+  height: 100px;
+  width: 100px;
+}
+section.thread-list aside img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  transition: scale 0.3s ease-in-out, border-radius 0.3s ease;
+  scale: 1;
+  border-radius: 10%;
+  height: 100px;
+}
+section.thread-list aside img:hover {
+  scale: 1.2;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 0;
+}
+section.thread-list aside .thread-user {
+  color: rgb(97, 0, 162);
+}
+section.thread-list aside .thread-user a {
+  color: currentColor;
+}
+section.thread-list aside p {
+  opacity: 0.7;
+}
+
+.thread-info {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+section.thread-detail {
+  display: flex;
+  gap: 2rem;
+}
+@media screen and (max-width: 800px) {
+  section.thread-detail {
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 800px) {
+  section.thread-detail .thread {
+    max-width: 100%;
+    overflow: hidden;
+  }
+}
+section.thread-detail .thread p {
+  font-size: 1rem;
+}
+section.thread-detail .thread img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  transition: scale 0.3s ease-in-out, border-radius 0.3s ease;
+  scale: 1;
+  border-radius: 10%;
+  height: 100px;
+  min-width: 100px;
+}
+section.thread-detail .thread img:hover {
+  scale: 1.2;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 0;
+}
+section.thread-detail .thread-messages {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 0.75rem;
+  min-width: 50%;
+}
+section.thread-detail .thread-messages .message-content {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+section.thread-detail .thread-messages .message-content p {
+  margin: 0;
+}
+section.thread-detail .thread-messages .message-content.mine {
+  align-self: flex-end;
+  align-items: flex-end;
+  background-color: rgba(0, 255, 123, 0.15);
+}
+section.thread-detail .thread-messages .message-content.other {
+  align-self: flex-start;
+  background-color: rgba(0, 170, 255, 0.15);
+}
+section.thread-detail .thread-messages .message-content .message-date {
+  font-size: 0.8rem;
+  opacity: 0.7;
 }/*# sourceMappingURL=styles.css.map */
