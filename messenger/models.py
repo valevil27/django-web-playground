@@ -1,4 +1,5 @@
 from __future__ import annotations
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
@@ -31,6 +32,11 @@ class ThreadManager(models.Manager):
         new_thread: Thread = self.create()
         new_thread.users.add(*users)
         return new_thread
+    
+    def ordered_threads(self):
+        threads:list[Thread] = self.all() # type: ignore
+        s_threads = sorted(threads, key= lambda t: t.get_last_time(), reverse=True )
+        return s_threads
             
 
 class Thread(models.Model):
@@ -39,7 +45,13 @@ class Thread(models.Model):
     )
     messages = models.ManyToManyField(Message, verbose_name=_("Messages"))
     objects = ThreadManager()
-
+    
+    def get_last_time(self):
+        last_msg:Message = self.messages.last() # type: ignore
+        if last_msg:
+            return last_msg.sended
+        else: return datetime(year=1900, month=1, day=1) 
+    
 
 def messages_changed(sender, **kwargs):
     instance: Thread = kwargs.get("instance", "")
