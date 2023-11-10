@@ -38,7 +38,34 @@
       </div>
       {% endif %}
       {% endfor %}
-
+      <div class="message-form">
+        <textarea id="contentInput" cols="30" rows="2" class="form-control mb-2" placeholder="Escribe tu mensaje"></textarea>
+        <button class="btn btn-success btn-sm btn-block" id="sendBtn" disabled>Enviar</button>
+        <script>
+          const sendBtn = document.querySelector("#sendBtn")
+          const textArea = document.getElementById("contentInput")
+          
+          // Send message event
+          sendBtn.addEventListener('click', () => {
+            const content = encodeURIComponent( textArea.value)
+            if (!content) return
+            textArea.value = ""
+            const url = "{% url 'messenger:add' thread.pk %}" + "?content=" + content
+            fetch(url, {'credentials':'include'}).then(res => res.json()).then(data => {
+              alert(data.created)
+            })
+          })
+          
+          // Activate SendBtn depending on if there is message
+          textArea.addEventListener('keyup', () => {
+            if (!textArea.value) {
+              sendBtn.disabled = true
+            } else {
+              sendBtn.disabled = false
+            }
+          })
+        </script>
+      </div>
     </article>
   </section>
 </main>
