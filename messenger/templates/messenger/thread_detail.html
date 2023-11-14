@@ -17,45 +17,64 @@
       </aside>
       <div class="thread-info">
         <h4 class="thread-user">{{ other.username }}</h4>
+        {% if thread.messages.all|length > 0 %}
         {% with lastmessage=thread.messages.last %}
         <p>Hace {{ lastmessage.sended|timesince }}</p>
         {% endwith %}
+        {% else  %}
+        <p>¡Comienza tu conversación!</p>
+        {% endif %}
       </div>
       {% endwith %}
     </aside>
     <article class="thread-messages">
       <h4>Chat</h4>
-      {% for message in thread.messages.all %}
-      {% if message.user == request.user %}
-      <div class="message-content mine">
-        <header class="message-date">Hace {{ message.sended|timesince }}</header>
-        <p>{{ message.content }}</p>
+      <div class="messages" id="messages">
+        {% for message in thread.messages.all %}
+        {% if message.user == request.user %}
+        <div class="message-content mine">
+          <header class="message-date">Hace {{ message.sended|timesince }}</header>
+          <p>{{ message.content }}</p>
+        </div>
+        {% else  %}
+        <div class="message-content other">
+          <header class="message-date">Hace {{ message.sended|timesince }}</header>
+          <p>{{ message.content }}</p>
+        </div>
+        {% endif %}
+        {% endfor %}
       </div>
-      {% else  %}
-      <div class="message-content other">
-        <header class="message-date">Hace {{ message.sended|timesince }}</header>
-        <p>{{ message.content }}</p>
-      </div>
-      {% endif %}
-      {% endfor %}
-      <div class="message-form">
-        <textarea id="contentInput" cols="30" rows="2" class="form-control mb-2" placeholder="Escribe tu mensaje"></textarea>
+      <footer class="message-form">
+        <textarea id="contentInput" cols="30" rows="2" class="form-control mb-2"
+          placeholder="Escribe tu mensaje"></textarea>
         <button class="btn btn-success btn-sm btn-block" id="sendBtn" disabled>Enviar</button>
         <script>
           const sendBtn = document.querySelector("#sendBtn")
           const textArea = document.getElementById("contentInput")
-          
+          const messages = document.getElementById("messages")
+
           // Send message event
           sendBtn.addEventListener('click', () => {
-            const content = encodeURIComponent( textArea.value)
+            const content = encodeURIComponent(textArea.value)
             if (!content) return
             textArea.value = ""
             const url = "{% url 'messenger:add' thread.pk %}" + "?content=" + content
-            fetch(url, {'credentials':'include'}).then(res => res.json()).then(data => {
-              alert(data.created)
+            fetch(url, {
+              'credentials': 'include'
+            }).then(res => res.json()).then(data => {
+              if (data.created) {
+                const message = document.createElement('div')
+                message.classList.add("message-content", "mine")
+                message.innerHTML = `<header class='message-date'>Hace unos segundos</header>
+              <p>${ decodeURIComponent(content) }</p>`
+                messages.appendChild(message)
+                textArea.value = ""
+                sendBtn.disabled = true
+                scrollMessagesToEnd()
+              }
             })
           })
-          
+
           // Activate SendBtn depending on if there is message
           textArea.addEventListener('keyup', () => {
             if (!textArea.value) {
@@ -64,8 +83,15 @@
               sendBtn.disabled = false
             }
           })
+
+          // Force scroll to be at the end on load
+          function scrollMessagesToEnd() {
+            messages.scrollTop = messages.scrollHeight;
+          }
+
+          scrollMessagesToEnd()
         </script>
-      </div>
+      </footer>
     </article>
   </section>
 </main>

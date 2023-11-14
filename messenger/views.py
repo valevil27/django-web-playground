@@ -1,9 +1,11 @@
 from __future__ import annotations
 from django.http import Http404, HttpRequest, JsonResponse
-from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView, TemplateView
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from messenger.models import Thread, Message
 
 # Create your views here.
@@ -38,3 +40,10 @@ def add_message(request: HttpRequest, pk: int):
     thread.messages.add(message)
     json_resp["created"] = True
     return JsonResponse(json_resp)
+
+@login_required
+def start_thread(request: HttpRequest, username: str):
+    user = get_object_or_404(User,username=username)
+    thread = Thread.objects.find_or_create_by_users(user, request.user) # type: ignore
+    return redirect(reverse_lazy('messenger:detail', args=[thread.pk]))
+    

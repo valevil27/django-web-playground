@@ -1,5 +1,6 @@
 from __future__ import annotations
 from datetime import datetime
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
@@ -14,6 +15,9 @@ class Message(models.Model):
 
     class Meta:
         ordering = ("sended",)
+    
+    def __str__(self) -> str:
+        return f"{self.user.username} at {self.sended}"
 
 
 class ThreadManager(models.Manager):
@@ -50,7 +54,10 @@ class Thread(models.Model):
         last_msg:Message = self.messages.last() # type: ignore
         if last_msg:
             return last_msg.sended
-        else: return datetime(year=1900, month=1, day=1) 
+        else: return datetime(year=1900, month=1, day=1,tzinfo=timezone.utc) 
+    
+    def __str__(self) -> str:
+        return f"{self.users.first().username}|{self.users.last().username} at {self.get_last_time()}" # type: ignore
     
 
 def messages_changed(sender, **kwargs):

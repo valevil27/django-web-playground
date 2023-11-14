@@ -12,6 +12,11 @@
       <img src="{% static 'registration/img/no-avatar.jpg' %}" alt="The user has no avatar.">
       {% endif %}
       <h3 class="profile-username">@{{ profile.user.username }}</h3>
+      {% if profile.user != request.user %}
+      <a href="{% url 'messenger:start' profile.user.username %}">
+        <p class="btn btn-primary">Enviar Mensaje</p>
+      </a>
+      {% endif %}
     </aside>
     <div class="separator"></div>
     <article class="user-info">
